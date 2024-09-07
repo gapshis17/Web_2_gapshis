@@ -50,11 +50,12 @@ def lab1():
         зовые возможности.
     </div>
     <li> <a href="/menu"> Меню </a></li>
+    <h2>Реализованные роуты</h2>
     <li> <a href="/lab1/oak"> Дуб </a></li>
     <li> <a href="/lab1/student"> Student </a></li>
     <li> <a href="/lab1/python"> Python </a></li>
     <li> <a href="/lab1/about"> About </a></li>
-    <h2>Реализованные роуты</h2>
+    
 
     <footer>
         &copy; Альбинас Гапшис, ФБИ-23, 3 курс, 2024
