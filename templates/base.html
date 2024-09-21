@@ -8,29 +8,14 @@
 </head>
 <body>
     <header>
+        <a href="{{ url_for('menu') }}">Main Menu</a>
         WEB-программирование, часть 2. {{ self.lab() }}
     </header>
     <main>
         {% block main %}{% endblock%}
     </main>
     <footer>
-        &copy; 
-        {% if name %}
-            {{ name }},
-        {% else %}
-            Анонимус,
-        {% endif %}
-        {% if group %}
-            {{ group }},
-        {% else %}
-            Ему повезло, 
-        {% endif %}
-        {% if kurs %}
-            {{ kurs }},
-        {% else %}
-            он не поступил в НГТУ
-        {% endif %}
-        2024
+        &copy; Альбинас Гапшис, ФБИ-23, 3 курс, 2024
     </footer>
 </body>
 </html>

@@ -188,7 +188,7 @@ def example():
 def lab2():
     return render_template('lab2.html')
 
-@app.route('/lab2/popular-russian-rappers')
+@app.route('/lab2/popular_russian_rappers')
 def popular_russian_rappers():
     images = [
         {'filename': 'lab2_1.jpg', 'alt': 'Scally Milano', 'caption': 'Scally Milano'},
