@@ -150,7 +150,7 @@ def about():
 
 @app.route('/lab2/example')
 def example():
-    name = 'Альбинас Гапшис'
+    name = 'Альинас Гапшис'
     number = '2'
     group = 'ФБИ-23'
     kurs = '3 курс'
