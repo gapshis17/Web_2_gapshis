@@ -21,6 +21,7 @@ def menu():
 
     <h1>web-сервер на flask</h1>
     <li> <a href="/lab1"> Лабораторная работа 1 </a></li>
+    <li> <a href="/lab2"> Лабораторная работа 2 </a></li>
     <footer>
         &copy; Альбинас Гапшис, ФБИ-23, 3 курс, 2024
     </footer>
@@ -186,3 +187,14 @@ def example():
 @app.route ('/lab2/')
 def lab2():
     return render_template('lab2.html')
+
+@app.route('/lab2/popular-russian-rappers')
+def popular_russian_rappers():
+    images = [
+        {'filename': 'lab2_1.jpg', 'alt': 'Scally Milano', 'caption': 'Scally Milano'},
+        {'filename': 'lab2_2.jpeg', 'alt': 'Friendly Thug 52 ngg', 'caption': 'Friendly Thug 52 ngg'},
+        {'filename': 'lab2_3.jpeg', 'alt': 'Kai Angel', 'caption': 'Kai Angel'},
+        {'filename': 'lab2_4.jpeg', 'alt': 'Shaman', 'caption': 'Shaman'},
+        {'filename': 'lab2_5.jpeg', 'alt': 'Maybe Baby', 'caption': 'Maybe Baby'}
+    ]
+    return render_template('popular_russian_rappers.html', images=images)
