@@ -150,4 +150,5 @@ def about():
 
 @app.route('/lab2/example')
 def example():
-    return render_template ('example.html')
+    name = 'Альбинас Гапшис'
+    return render_template ('example.html', name = name)
