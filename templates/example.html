@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ name }}. Лабораторная работа {{ number }}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'main.css') }}">
 </head>
 <body>
     <header>
         WEB-программирование, часть 2. Лабораторная работа {{ number }}
     </header>
     <main>
-        основной контент
+        5 + 2 = {{ calculation_1 }}<br>
+        11 × 28 = {{ calculation_2 }}<br>
+        8452 / 793 = {{ calculation_3 }}<br>
+        45^8 = {{ calculation_4 }}<br>
     </main>
     <footer>
         &copy; {{ name }}, {{ group }}, {{ kurs }}, 2024

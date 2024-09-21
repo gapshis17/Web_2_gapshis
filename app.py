@@ -154,4 +154,8 @@ def example():
     number = '2'
     group = 'ФБИ-23'
     kurs = '3 курс'
-    return render_template ('example.html', name = name, number = number, group = group, kurs = kurs)
+    calculation_1 = 5 + 2
+    calculation_2 = 11 * 28
+    calculation_3 = 8452 / 793
+    calculation_4 = 45 ** 8
+    return render_template ('example.html', name = name, number = number, group = group, kurs = kurs, calculation_1 = calculation_1, calculation_2 = calculation_2, calculation_3 = calculation_3, calculation_4 = calculation_4)
