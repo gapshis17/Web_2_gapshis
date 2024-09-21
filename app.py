@@ -150,7 +150,7 @@ def about():
 
 @app.route('/lab2/example')
 def example():
-    name = 'Альинас Гапшис'
+    name = 'Альбинас Гапшис'
     number = '2'
     group = 'ФБИ-23'
     kurs = '3 курс'
@@ -158,4 +158,31 @@ def example():
     calculation_2 = 11 * 28
     calculation_3 = 8452 / 793
     calculation_4 = 45 ** 8
-    return render_template ('example.html', name = name, number = number, group = group, kurs = kurs, calculation_1 = calculation_1, calculation_2 = calculation_2, calculation_3 = calculation_3, calculation_4 = calculation_4)
+    fruits = [
+        {'name': 'яблоки', 'price': 100},
+        {'name': 'груши', 'price': 120},
+        {'name': 'апельсины', 'price': 80},
+        {'name': 'мандарины', 'price': 95},
+        {'name': 'манго', 'price': 321}
+    ]
+    books = [
+    {'author': 'Джордж Оруэлл', 'title': '1984', 'genre': 'Антиутопия', 'pages': 328},
+    {'author': 'Федор Достоевский', 'title': 'Преступление и наказание', 'genre': 'Классическая литература', 'pages': 671},
+    {'author': 'Харпер Ли', 'title': 'Убить пересмешника', 'genre': 'Социальный роман', 'pages': 281},
+    {'author': 'Джон Р.Р. Толкин', 'title': 'Властелин Колец', 'genre': 'Фэнтези', 'pages': 1178},
+    {'author': 'Маргарет Митчелл', 'title': 'Унесенные ветром', 'genre': 'Исторический роман', 'pages': 1037},
+    {'author': 'Агата Кристи', 'title': 'Десять негритят', 'genre': 'Детектив', 'pages': 271},
+    {'author': 'Рэй Брэдбери', 'title': 'Fahrenheit 451', 'genre': 'Научная фантастика', 'pages': 249},
+    {'author': 'Стивен Кинг', 'title': 'Сияние', 'genre': 'Ужасы', 'pages': 447},
+    {'author': 'Ф. Скотт Фицджеральд', 'title': 'Великий Гэтсби', 'genre': 'Классическая литература', 'pages': 180},
+    {'author': 'Джейн Остин', 'title': 'Гордость и предубеждение', 'genre': 'Классическая литература', 'pages': 432}
+    ]
+
+    return render_template ('example.html', name = name, number = number, 
+                            group = group, kurs = kurs, calculation_1 = calculation_1, 
+                            calculation_2 = calculation_2, calculation_3 = calculation_3, 
+                            calculation_4 = calculation_4, fruits = fruits, books = books)
+
+@app.route ('/lab2/')
+def lab2():
+    return render_template('lab2.html')
