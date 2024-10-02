@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, session, request
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
