@@ -83,6 +83,16 @@ def success():
 @lab3.route('/lab3/settings', methods=['GET', 'POST'])
 def settings():
     if request.method == 'POST':
+        if 'clear' in request.form:  # Проверяем, была ли нажата кнопка "Очистить куки"
+            resp = make_response(redirect('/lab3/settings'))
+            # Очистка всех кук
+            resp.set_cookie('color', '', expires=0)
+            resp.set_cookie('background_color', '', expires=0)
+            resp.set_cookie('font_size', '', expires=0)
+            resp.set_cookie('text_align', '', expires=0)
+            return resp
+
+        # Обработка обновления куки
         color = request.form.get('color')
         background_color = request.form.get('background_color')
         font_size = request.form.get('font_size')
@@ -104,6 +114,7 @@ def settings():
     background_color = request.cookies.get('background_color')
     font_size = request.cookies.get('font_size')
     text_align = request.cookies.get('text_align')
+
 
     resp = make_response(render_template('lab3/settings.html', 
                                         color=color,
