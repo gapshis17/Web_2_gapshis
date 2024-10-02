@@ -6,7 +6,7 @@ lab3 = Blueprint('lab3', __name__)
 def lab():
     name = request.cookies.get('name')
     name_color = request.cookies.get('name_color')
-    return render_template('lab3.html', name=name, name_color=name_color)
+    return render_template('lab3/lab3.html', name=name, name_color=name_color)
 
 
 @lab3.route('/lab3/cookie')
@@ -37,11 +37,11 @@ def form1():
     if age == '':
         errors['age'] = 'Заполните поле!'
     sex = request.args.get('sex')
-    return render_template('form1.html', user=user, age=age, sex=sex, errors=errors)
+    return render_template('lab3/form1.html', user=user, age=age, sex=sex, errors=errors)
 
 @lab3.route('/lab3/order')
 def order():
-    return render_template('order.html')
+    return render_template('lab3/order.html')
 
 @lab3.route('/lab3/pay')
 def pay():
@@ -58,7 +58,7 @@ def pay():
         price += 30
     if request.args.get('sugar') == 'on':
         price += 10
-    return render_template('pay.html', price=price)
+    return render_template('lab3/pay.html', price=price)
 
 
 @lab3.route('/lab3/success')
@@ -76,7 +76,7 @@ def success():
         price += 30
     if request.args.get('sugar') == 'on':
         price += 10
-    return render_template('success.html', price=price)
+    return render_template('lab3/success.html', price=price)
 
 
 @lab3.route('/lab3/settings', methods=['GET', 'POST'])
@@ -104,7 +104,7 @@ def settings():
     font_size = request.cookies.get('font_size')
     text_align = request.cookies.get('text_align')
 
-    resp = make_response(render_template('settings.html', 
+    resp = make_response(render_template('lab3/settings.html', 
                                         color=color,
                                         background_color=background_color,
                                         font_size=font_size,

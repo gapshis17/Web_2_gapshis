@@ -10,7 +10,7 @@ Popular Russian Rappers
     <div class="image-gallery">
         {% for image in images %}
         <div class="image-container">
-            <img src="{{ url_for('static', filename=image.filename) }}" alt="{{ image.alt }}" width="300" height="300">
+            <img src="{{ url_for('static', filename='lab2/' + image.filename) }}" alt="{{ image.alt }}" width="300" height="300">
             <p>{{ image.caption }}</p>
         </div>
         {% endfor %}

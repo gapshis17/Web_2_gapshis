@@ -32,7 +32,7 @@ def example():
     {'author': 'Джейн Остин', 'title': 'Гордость и предубеждение', 'genre': 'Классическая литература', 'pages': 432}
     ]
 
-    return render_template ('example.html', name = name, number = number, 
+    return render_template ('lab2/example.html', name = name, number = number, 
                             group = group, kurs = kurs, calculation_1 = calculation_1, 
                             calculation_2 = calculation_2, calculation_3 = calculation_3, 
                             calculation_4 = calculation_4, fruits = fruits, books = books)
@@ -40,7 +40,7 @@ def example():
 
 @lab2.route ('/lab2/')
 def lab():
-    return render_template('lab2.html')
+    return render_template('lab2/lab2.html')
 
 
 @lab2.route('/lab2/popular_russian_rappers')
@@ -52,4 +52,4 @@ def popular_russian_rappers():
         {'filename': 'lab2_4.jpeg', 'alt': 'Shaman', 'caption': 'Shaman'},
         {'filename': 'lab2_5.jpeg', 'alt': 'Maybe Baby', 'caption': 'Maybe Baby'}
     ]
-    return render_template('popular_russian_rappers.html', images=images)
+    return render_template('lab2/popular_russian_rappers.html', images=images)

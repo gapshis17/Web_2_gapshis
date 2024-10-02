@@ -45,11 +45,11 @@ def oak():
 <!DOCTYPE html>
 <html>
 <head>
-     <link rel="stylesheet" href="{url_for('static', filename='lab1.css')}">
+     <link rel="stylesheet" href="{url_for('static', filename='lab1/lab1.css')}">
 </head>
 <body>
     <h1>Дуб</h1>
-    <img src="{url_for('static', filename='oak.jfif')}">
+    <img src="{url_for('static', filename='lab1/oak.jfif')}">
 </body>
 </html>
 '''
@@ -60,11 +60,11 @@ def student():
 <!DOCTYPE html>
 <html>
 <head>
-     <link rel="stylesheet" href="{url_for('static', filename='lab1.css')}">
+     <link rel="stylesheet" href="{url_for('static', filename='lab1/lab1.css')}">
 </head>
 <body>
     <h1>Гапшис Альбинас Альбинович</h1>
-    <img src="{url_for('static', filename='logo.jpeg')}">
+    <img src="{url_for('static', filename='lab1/logo.jpeg')}">
 </body>
 </html>
 '''
@@ -76,7 +76,7 @@ def python():
 <!DOCTYPE html>
 <html>
 <head>
-     <link rel="stylesheet" href="{url_for('static', filename='lab1.css')}">
+     <link rel="stylesheet" href="{url_for('static', filename='lab1/lab1.css')}">
 </head>
 <body>
     <h1>Python</h1>
@@ -92,7 +92,7 @@ def python():
     <p>Python также известен своей гибкостью и кроссплатформенностью. Он работает на различных 
     операционных системах, таких как Windows, macOS, Linux и Unix.</p>
 
-    <img src="{url_for('static', filename='python.jpeg')}">
+    <img src="{url_for('static', filename='lab1/python.jpeg')}">
 </body>
 </html>
 '''
@@ -104,7 +104,7 @@ def about():
 <!DOCTYPE html>
 <html>
 <head>
-     <link rel="stylesheet" href="{url_for('static', filename='lab1.css')}">
+     <link rel="stylesheet" href="{url_for('static', filename='lab1/lab1.css')}">
 </head>
 <body>
     <h1>О работе</h1>
@@ -120,7 +120,7 @@ def about():
     <li>создать репозиторий на github,</li>
     <li>создать простейшие страницы.</li>
     
-    <img src="{url_for('static', filename='about.jpeg')}">
+    <img src="{url_for('static', filename='lab1/about.jpeg')}">
 </body>
 </html>
 '''
