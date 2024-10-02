@@ -77,3 +77,36 @@ def success():
     if request.args.get('sugar') == 'on':
         price += 10
     return render_template('success.html', price=price)
+
+
+@lab3.route('/lab3/settings', methods=['GET', 'POST'])
+def settings():
+    if request.method == 'POST':
+        color = request.form.get('color')
+        background_color = request.form.get('background_color')
+        font_size = request.form.get('font_size')
+        text_align = request.form.get('text_align')
+
+        resp = make_response(redirect('/lab3/settings'))
+        if color:
+            resp.set_cookie('color', color)
+        if background_color:
+            resp.set_cookie('background_color', background_color)
+        if font_size:
+            resp.set_cookie('font_size', font_size)
+        if text_align:
+            resp.set_cookie('text_align', text_align)
+        return resp
+
+    # Обработка GET-запроса
+    color = request.cookies.get('color')
+    background_color = request.cookies.get('background_color')
+    font_size = request.cookies.get('font_size')
+    text_align = request.cookies.get('text_align')
+
+    resp = make_response(render_template('settings.html', 
+                                        color=color,
+                                        background_color=background_color,
+                                        font_size=font_size,
+                                        text_align=text_align))
+    return resp
