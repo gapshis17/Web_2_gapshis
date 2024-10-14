@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, make_response, redirect, session
+import traceback
 lab4 = Blueprint('lab4', __name__)
 
 
@@ -154,6 +155,54 @@ users = [
     {'login': 'egor', 'password': '777', 'name': 'Егор Лапшин', 'gender': 'М'}
 ]
 
+
+def is_authorized():
+    current_app.logger.info(f"is_authorized() called, session: {session}")
+    if 'user_id' in session:
+        current_app.logger.info("User is authorized")
+        return True
+    else:
+        current_app.logger.info("User is not authorized")
+        return False
+
+
+@lab4.route('/lab4/users')
+def users_list():
+    if not is_authorized():
+        current_app.logger.info("User is not authorized, redirecting to login")
+        return redirect('/lab4/login')
+    
+    try:
+        current_app.logger.info("Rendering users_list.html")
+        return render_template('lab4/users_list.html', users=users)
+    except KeyError as e:
+        current_app.logger.error(f"KeyError in users_list: {e}")
+        return messages.ERRORS['users_list_error'], 500
+    except TypeError as e:
+        current_app.logger.error(f"TypeError in users_list: {e}")
+        return messages.ERRORS['users_list_error'], 500
+    except Exception as e:
+        current_app.logger.error(f"Unexpected error in users_list: {e}")
+        return messages.ERRORS['users_list_error'], 500
+
+
+@lab4.route('/lab4/delete_user/<login>', methods=['POST'])
+def delete_user(login):
+    global users
+
+    if not is_authorized():
+        return redirect('/lab4/login')
+
+    # Удаляем пользователя
+    users = [user for user in users if user['login'] != login]
+
+    if session.get('login') == login:
+        logout()  # Если текущий пользователь удаляет себя, выходим из системы
+        
+    return redirect('/lab4/users')
+
+
+
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -186,10 +235,56 @@ def login():
     error = 'Неверные логин и/или пароль'
     return render_template('lab4/login.html', error=error, authorized=False, login=login)
 
+
 @lab4.route('/lab4/logout', methods=['POST'])
 def logout():
     session.pop('login', None)
     return redirect('/lab4/login')
+
+
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        login = request.form.get('login')
+        password = request.form.get('password')
+
+        # Проверка на уникальность логина
+        if any(user['login'] == login for user in users):
+            error = 'Такой логин уже существует. Пожалуйста, выберите другой.'
+            return render_template('lab4/register.html', error=error)
+        
+        # Добавление нового пользователя
+        users.append({
+            'login': login,
+            'password': password,
+            'name': name,
+            'gender': 'М'  # Можно расширить данными о поле
+        })
+
+        return redirect('/lab4/login')  # После успешной регистрации перенаправляем на страницу логина
+
+    return render_template('lab4/register.html')
+
+
+@lab4.route('/lab4/edit_user/<login>', methods=['GET', 'POST'])
+def edit_user(login):
+    if not is_authorized():
+        return redirect('/lab4/login')
+
+    user = next((user for user in users if user['login'] == login), None)
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        password = request.form.get('password')
+
+        if user:
+            user['name'] = name
+            user['password'] = password
+            return redirect('/lab4/users')
+
+    return render_template('lab4/edit_user.html', user=user)
+
 
 
 @lab4.route('/lab4/refrigerator', methods=['GET', 'POST'])
