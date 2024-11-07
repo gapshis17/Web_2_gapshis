@@ -1,28 +1,69 @@
-body {
-    margin: 0;
+
+
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #e0f7fa; /* Светло-голубой фон */
+}
+
 
 main {
     margin-bottom: 40px; 
     padding: 10px;
 }
 
+
 header {
-    margin-bottom: 30px;
-    padding: 20px;
-    background: lightgray;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }
 
+
 footer {
-    margin-top: 20px; 
+    background-color: #4CAF50;
+    color: white;
     padding: 10px;
-    background: lightgray; 
-    text-align: right; 
+    text-align: center;
     position: fixed;
-    bottom: 0; 
-    left: 0; 
-    right: 0;
+    bottom: 0;
+    width: 100%;
 }
+
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1; /* Серый фон для кнопок */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+p {
+    margin-top: 20px;
+}
+
 
 .error {
     color: red; 
@@ -53,3 +94,4 @@ footer {
     background-color: #007bff;
     color: #fff;
 }
+

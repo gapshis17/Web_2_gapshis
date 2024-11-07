@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+    <h1>Вход</h1>
+    <form action="{{ url_for('lab5.login') }}" method="post">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Войти</button>
+    </form>
+{% endblock %}
