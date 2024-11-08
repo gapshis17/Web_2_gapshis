@@ -12,6 +12,22 @@ def lab():
     return render_template('lab5/index.html', login = session.get('login'))
 
 
+def db_connect():
+    conn = psycopg2.connect(
+        host='127.0.0.1',
+        database='albinas_gapshis_konwledge_base',
+        user='albinas_gapshis_konwledge_base',
+        password='123'
+    )
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    return conn, cur
+
+def db_close(conn, cur):
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
 @lab5.route('/lab5/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -25,29 +41,20 @@ def login():
         return render_template('lab5/login.html', error=error_message)
 
     try:
-        conn = psycopg2.connect(
-            host='127.0.0.1',
-            database='albinas_gapshis_konwledge_base',
-            user='albinas_gapshis_konwledge_base',
-            password='123'
-        )
-        cur = conn.cursor(cursor_factory=RealDictCursor)
+        conn, cur = db_connect()
         
         cur.execute("SELECT login, password FROM users WHERE login = %s;", (login,))
         user = cur.fetchone()
 
         if not user:
-            cur.close()
-            conn.close()
+            db_close(conn, cur)
             return render_template('lab5/login.html', error='Логин и/или пароль не верны')
         
         if user['password'] != password:
-            cur.close()
-            conn.close()
+            db_close(conn, cur)
             return render_template('lab5/login.html', error='Логин и/или пароль не верны')
 
-        cur.close()
-        conn.close()
+        db_close(conn, cur)
 
         # Устанавливаем логин пользователя в сессию
         session['login'] = login
@@ -79,75 +86,23 @@ def register():
         return render_template('lab5/register.html', error=error_message)
 
     try:
-        # Подключение к базе данных
-        conn = psycopg2.connect(
-            host='127.0.0.1',
-            database='albinas_gapshis_konwledge_base',
-            user='albinas_gapshis_konwledge_base',
-            password='123'
-        )
-        cur = conn.cursor()
+        conn, cur = db_connect()
         
         # Проверка на существование пользователя
-        cur.execute(sql.SQL("SELECT login FROM users WHERE login = %s;"), (login,))
+        cur.execute("SELECT login FROM users WHERE login = %s;", (login,))
         if cur.fetchone():
+            db_close(conn, cur)
             return render_template('lab5/register.html', error='Такой пользователь уже существует')
 
         # Добавление нового пользователя
-        cur.execute(sql.SQL("INSERT INTO users (login, password) VALUES (%s, %s);"), (login, password))
-        conn.commit()
+        cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password))
+        db_close(conn, cur)
+
         return render_template('lab5/success.html', login=login)
 
     except Exception as e:
         # Предоставляем сообщение об ошибке пользователю
         return render_template('lab5/register.html', error='Ошибка регистрации: ' + str(e))
-    
-    finally:
-        # Закрытие курсора и соединения
-        if 'cur' in locals():
-            cur.close()
-        if 'conn' in locals():
-            conn.close()
-
-
-# @lab5.route('/lab5/register', methods = ['GET', 'POST'])
-# def register():
-#     if request.method == 'GET':
-#         return render_template('lab5/register.html')
-    
-#     login = request.form.get('login')
-#     password = request.form.get('password')
-
-#     if not (login or password):
-#         return render_template('lab5/register.html', error='Заполните все поля!')
-
-#     if not login:
-#         return render_template('lab5/register.html', error='Логин не может быть пустым!')
-
-#     if not password:
-#         return render_template('lab5/register.html', error='Пароль не может быть пустым!')
-
-#     conn = psycopg2.connect(
-#         host = '127.0.0.1',
-#         database = 'albinas_gapshis_konwledge_base',
-#         user = 'albinas_gapshis_konwledge_base',
-#         password = '123'
-#     )
-#     cur = conn.cursor()
-
-#     cur.execute(f"SELECT login FROM users WHERE login='{login}';")
-#     if cur.fetchone():
-#         cur.close()
-#         conn.close()
-#         return render_template('lab5/register.html',
-#                                 error = 'Такой пользователь уже существует')
-
-#     cur.execute(f"INSERT INTO users (login, password) VALUES ('{login}', '{password}');")
-#     conn.commit()
-#     cur.close()
-#     conn.close()          
-#     return render_template('lab5/success.html', login=login)
-
 
 @lab5.route('/lab5/list')
 def list():
