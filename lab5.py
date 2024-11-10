@@ -90,7 +90,7 @@ def register():
         conn, cur = db_connect()
         
         # Проверка на существование пользователя
-        cur.execute("SELECT login FROM users WHERE login = %s;", (login,))
+        cur.execute("SELECT login FROM users WHERE login = %s;", (login,)) 
         if cur.fetchone():
             db_close(conn, cur)
             return render_template('lab5/register.html', error='Такой пользователь уже существует')
