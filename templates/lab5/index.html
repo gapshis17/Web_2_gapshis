@@ -9,6 +9,7 @@
         <a href="{{ url_for('lab5.create') }}" class="button">Создать статью</a>
         <a href="{{ url_for('lab5.login') }}" class="button">Войти</a>
         <a href="{{ url_for('lab5.register') }}" class="button">Регистрация</a>
+        <a href="{{ url_for('lab5.logout') }}" class="button">Выйти</a>
     </div>
     <p>Имя пользователя: {{ login if login else 'anonymous' }}</p>
 {% endblock %}
