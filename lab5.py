@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, make_response, redirect, session
+from flask import Blueprint, render_template, request, make_response, redirect, session, url_for
 import traceback
 import psycopg2
 from psycopg2 import sql
@@ -111,6 +111,65 @@ def list():
     return render_template('lab5/list.html')
 
 
-@lab5.route('/lab5/create')
+# @lab5.route('/lab5/create', methods=['GET', 'POST'])
+# def create():
+#     login = session.get('login')
+#     if not login:
+#         return redirect ('lab5/login')
+#     if request.method == 'GET':
+#         return render_template('lab5/create_article.html')
+#     title = request.form.get('title')
+#     article_text = request.form.get(article_text)
+
+#     conn, cur = db_connect(conn, cur)
+#     cur.execute("SELECT * FROM users WHERE login = %s;", (login, ))
+#     login_id = cur.fetchone()["id"]
+
+#     cur.execute(f"INSERT INTO articles(login_id, title, article_text)\ VALUES('{login_id}', '{title}', '{article_text}')")
+#     cur.fetchone()
+
+#     db_close(conn, cur)
+#     return redirect ('/lab5')
+
+@lab5.route('/lab5/create', methods=['GET', 'POST'])
 def create():
-    return render_template('lab5/create.html')
+    login = session.get('login')
+    if not login:
+        return redirect(url_for('lab5.login'))
+    
+    if request.method == 'GET':
+        return render_template('lab5/create_article.html')
+    
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+
+    # Проверка на заполнение всех полей
+    if not title or not article_text:
+        return render_template('lab5/create_article.html', error='Заполните все поля!')
+
+    try:
+        # Подключение к базе данных
+        conn, cur = db_connect()
+        
+        # Получение id пользователя
+        cur.execute("SELECT id FROM users WHERE login = %s;", (login,))
+        user_id = cur.fetchone()['id']
+
+        # Вставка статьи в базу данных
+        cur.execute("""
+            INSERT INTO articles (user_id, title, article_text)
+            VALUES (%s, %s, %s);
+        """, (user_id, title, article_text))
+
+        # Сохранение изменений
+        conn.commit()  
+        
+        # Закрытие соединения
+        db_close(conn, cur)
+
+        # Перенаправление на главную страницу
+        return redirect(url_for('lab5.lab'))
+
+    except Exception as e:
+        print(f"Ошибка при создании статьи: {e}") 
+        return render_template('lab5/create_article.html', error='Ошибка при создании статьи: ' + str(e))
