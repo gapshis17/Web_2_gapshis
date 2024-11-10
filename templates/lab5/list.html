@@ -3,8 +3,20 @@
 {% block lab %}Лабораторная работа 5{% endblock %}
 
 {% block main %}
-    <h1>Список статей</h1>
-    <ul>
-        <!-- Здесь будет список статей -->
-    </ul>
+    <h1>Мои статьи</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.article_text }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет статей.</p>
+    {% endif %}
 {% endblock %}

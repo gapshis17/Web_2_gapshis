@@ -106,30 +106,6 @@ def register():
         # Предоставляем сообщение об ошибке пользователю
         return render_template('lab5/register.html', error='Ошибка регистрации: ' + str(e))
 
-@lab5.route('/lab5/list')
-def list():
-    return render_template('lab5/list.html')
-
-
-# @lab5.route('/lab5/create', methods=['GET', 'POST'])
-# def create():
-#     login = session.get('login')
-#     if not login:
-#         return redirect ('lab5/login')
-#     if request.method == 'GET':
-#         return render_template('lab5/create_article.html')
-#     title = request.form.get('title')
-#     article_text = request.form.get(article_text)
-
-#     conn, cur = db_connect(conn, cur)
-#     cur.execute("SELECT * FROM users WHERE login = %s;", (login, ))
-#     login_id = cur.fetchone()["id"]
-
-#     cur.execute(f"INSERT INTO articles(login_id, title, article_text)\ VALUES('{login_id}', '{title}', '{article_text}')")
-#     cur.fetchone()
-
-#     db_close(conn, cur)
-#     return redirect ('/lab5')
 
 @lab5.route('/lab5/create', methods=['GET', 'POST'])
 def create():
@@ -173,3 +149,34 @@ def create():
     except Exception as e:
         print(f"Ошибка при создании статьи: {e}") 
         return render_template('lab5/create_article.html', error='Ошибка при создании статьи: ' + str(e))
+
+
+@lab5.route('/lab5/list', methods=['GET'])
+def list_articles():
+    login = session.get('login')
+    if not login:
+        return redirect(url_for('lab5.login'))
+
+    try:
+        # Подключение к базе данных
+        conn, cur = db_connect()
+        
+        # Получение id пользователя
+        cur.execute("SELECT id FROM users WHERE login = %s;", (login,))
+        user_id = cur.fetchone()['id']
+        print(f"User ID: {user_id}")  # Логирование
+
+        # Получение всех статей пользователя
+        cur.execute("SELECT * FROM articles WHERE user_id = %s;", (user_id,))
+        articles = cur.fetchall()
+        print(f"Articles: {articles}")  # Логирование
+
+        # Закрытие соединения
+        db_close(conn, cur)
+
+        # Передача статей в шаблон
+        return render_template('lab5/list.html', articles=articles)
+
+    except Exception as e:
+        print(f"Ошибка при получении статей: {e}")
+        return render_template('lab5/list.html', error='Ошибка при получении статей: ' + str(e))
