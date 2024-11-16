@@ -4,6 +4,7 @@ from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5
+from lab6 import lab6
 import os
 from os import path
 
@@ -19,6 +20,7 @@ app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)
+app.register_blueprint(lab6)
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -47,6 +49,7 @@ def menu():
     <li> <a href="/lab3"> Лабораторная работа 3 </a></li>
     <li> <a href="/lab4"> Лабораторная работа 4 </a></li>
     <li> <a href="/lab5"> Лабораторная работа 5 </a></li>
+    <li> <a href="/lab6"> Лабораторная работа 6 </a></li>
     <footer>
         &copy; Альбинас Гапшис, ФБИ-23, 3 курс, 2024
     </footer>
