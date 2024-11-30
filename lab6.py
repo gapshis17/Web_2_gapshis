@@ -36,32 +36,6 @@ def db_close(conn, cur):
     cur.close()
     conn.close()
 
-def init_db():
-    with app.app_context():
-        conn, cur = db_connect()
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS offices (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                number INTEGER NOT NULL,
-                tenant TEXT,
-                price INTEGER NOT NULL
-            );
-        """)
-        cur.execute("""
-            INSERT INTO offices (number, tenant, price) VALUES
-            (1, NULL, 900),
-            (2, NULL, 901),
-            (3, NULL, 902),
-            (4, NULL, 900),
-            (5, NULL, 901),
-            (6, NULL, 902),
-            (7, NULL, 900),
-            (8, NULL, 901),
-            (9, NULL, 902),
-            (10, NULL, 900);
-        """)
-        db_close(conn, cur)
-
 @lab6.route('/lab6/json-rpc-api/', methods=['POST'])
 def api():
     data = request.json
@@ -157,7 +131,7 @@ def api():
 if __name__ == '__main__':
     app = Flask(__name__)
     app.secret_key = 'your_secret_key'
-    app.config['DB_TYPE'] = 'sqlite'  # или 'postgres' в зависимости от вашей базы данных
+    app.config['DB_TYPE'] = 'sqlite'
     app.register_blueprint(lab6)
     init_db()
     app.run(debug=True)
