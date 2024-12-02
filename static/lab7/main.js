@@ -44,6 +44,7 @@ function fillFilmList() {
 
 function showModal() {
     document.querySelector('div.modal').style.display = 'block';
+    document.getElementById('description-error').innerText = ''; // Очистка сообщения об ошибке
 }
 
 function hideModal() {
@@ -81,11 +82,22 @@ function sendFilm() {
         },
         body: JSON.stringify(film)
     })
-    .then(function() {
+    .then(function(resp) {
+        if (resp.ok) {
+            return resp.json();
+        } else {
+            return resp.json().then(err => { throw err; });
+        }
+    })
+    .then(function(data) {
         fillFilmList();
         hideModal();
     })
-    .catch(error => console.error('Error:', error));
+    .catch(function(errors) {
+        if (errors.description) {
+            document.getElementById('description-error').innerText = errors.description;
+        }
+    });
 }
 
 function editFilm(id) {
