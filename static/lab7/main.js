@@ -1,44 +1,3 @@
-// function fillFilmList() {
-//     fetch('/lab7/rest-api/films/')
-//     .then (function(data) {
-//         return data.json();
-//     })
-//     .then (function(films) {
-//         let tbody = document.getElementById('film-List');
-//         tbody.innerHTML = '';
-//         for(let i = 0; i<films.length; i++) {
-//             let tr = document.createElement('tr');
-
-//             let tdTitle = document.createElement('td');
-//             let tdTitleRus = document.createElement('td');
-//             let tdYear = document.createElement('td');
-//             let tdActions = document.createElement('td');
-
-//             tdTitle.innerText = films[i].title==films[i].title_ru ? '' : films[i].title;
-//             tdTitleRus.innerText = films[i].title_ru;
-//             tdYear.innerText = films[i].year;
-
-//             let editButton = document.createElement('Button');
-//             editButton.innerText = 'редактировать';
-
-//             let delButton = document.createElement('Button');
-//             delButton.innerText = 'удалить';
-
-//             tdActions.append(editButton);
-//             tdActions.append(delButton);
-
-//             tr.append(tdTitle);
-//             tr.append(tdTitleRus);
-//             tr.append(tdYear);
-//             tr.append(tdActions);
-
-//             tbody.append(tr);
-//         }
-//     })
-
-
-
-
 let films = [];
 
 function fillFilmList() {
@@ -83,50 +42,59 @@ function fillFilmList() {
     });
 }
 
+function showModal() {
+    document.querySelector('div.modal').style.display = 'block';
+}
+
+function hideModal() {
+    document.querySelector('div.modal').style.display = 'none';
+}
+
+function cancel() {
+    hideModal();
+}
+
 function addFilm() {
-    let newFilm = {
-        title: prompt('Введите название фильма на английском:'),
-        title_ru: prompt('Введите название фильма на русском:'),
-        year: prompt('Введите год выпуска фильма:'),
-        description: prompt('Введите описание фильма:')
+    document.getElementById('id').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('title-ru').value = '';
+    document.getElementById('year').value = '';
+    document.getElementById('description').value = '';
+    showModal();
+}
+
+function sendFilm() {
+    const film = {
+        title: document.getElementById('title').value,
+        title_ru: document.getElementById('title-ru').value,
+        year: document.getElementById('year').value,
+        description: document.getElementById('description').value
     };
 
-    fetch('/lab7/rest-api/films/', {
-        method: 'POST',
+    const url = '/lab7/rest-api/films/';
+    const method = 'POST';
+
+    fetch(url, {
+        method: method,
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify(newFilm)
+        body: JSON.stringify(film)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Film added with index:', data.index);
+    .then(function() {
         fillFilmList();
+        hideModal();
     })
     .catch(error => console.error('Error:', error));
 }
 
 function editFilm(id) {
-    let updatedFilm = {
-        title: prompt('Введите новое название фильма на английском:', films[id].title),
-        title_ru: prompt('Введите новое название фильма на русском:', films[id].title_ru),
-        year: prompt('Введите новый год выпуска фильма:', films[id].year),
-        description: prompt('Введите новое описание фильма:', films[id].description)
-    };
-
-    fetch(`/lab7/rest-api/films/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedFilm)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Film updated:', data);
-        fillFilmList();
-    })
-    .catch(error => console.error('Error:', error));
+    document.getElementById('id').value = id;
+    document.getElementById('title').value = films[id].title;
+    document.getElementById('title-ru').value = films[id].title_ru;
+    document.getElementById('year').value = films[id].year;
+    document.getElementById('description').value = films[id].description;
+    showModal();
 }
 
 function deleteFilm(id) {
@@ -143,3 +111,4 @@ function deleteFilm(id) {
     })
     .catch(error => console.error('Error:', error));
 }
+
