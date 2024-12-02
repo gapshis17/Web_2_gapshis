@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 lab7 = Blueprint('lab7', __name__)
 
@@ -75,6 +75,15 @@ def del_film(id):
     else:
         return jsonify({"error": "Film not found"}), 404
 
+
+@lab7.route('/rest-api/films/<int:id>', methods=['PUT'])
+def put_film(id):
+    if 0 <= id < len(films):
+        film = request.get_json()
+        films[id] = film
+        return jsonify(films[id])
+    else:
+        return jsonify({"error": "Film not found"}), 404
 
 # @lab7.route('/rest-api/films/<int:id>', methods=['DELETE'])
 # def del_film(id):
