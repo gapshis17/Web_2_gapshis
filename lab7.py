@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, render_template, request,url_for
 
 lab7 = Blueprint('lab7', __name__)
 
@@ -91,7 +91,7 @@ def post_film():
     film = request.get_json()
     films.append(film)
     return jsonify({"index": len(films) - 1})
-    
+
 
 # @lab7.route('/rest-api/films/<int:id>', methods=['DELETE'])
 # def del_film(id):
