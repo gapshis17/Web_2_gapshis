@@ -88,3 +88,4 @@ def post_film():
         return jsonify({"description": "Заполните описание"}), 400
     films.append(film)
     return jsonify({"index": len(films) - 1})
+    
