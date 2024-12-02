@@ -111,4 +111,3 @@ function deleteFilm(id) {
     })
     .catch(error => console.error('Error:', error));
 }
-
