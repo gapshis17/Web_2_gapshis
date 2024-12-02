@@ -85,6 +85,14 @@ def put_film(id):
     else:
         return jsonify({"error": "Film not found"}), 404
 
+
+@lab7.route('/rest-api/films/', methods=['POST'])
+def post_film():
+    film = request.get_json()
+    films.append(film)
+    return jsonify({"index": len(films) - 1})
+    
+
 # @lab7.route('/rest-api/films/<int:id>', methods=['DELETE'])
 # def del_film(id):
 #     del films[id]
