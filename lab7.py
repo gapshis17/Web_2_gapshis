@@ -65,3 +65,18 @@ def get_film(id):
         return jsonify(films[id])
     else:
         return jsonify({"error": "Film not found"}), 404
+
+
+@lab7.route('/rest-api/films/<int:id>', methods=['DELETE'])
+def del_film(id):
+    if 0 <= id < len(films):
+        films.pop(id)
+        return '', 204
+    else:
+        return jsonify({"error": "Film not found"}), 404
+
+
+# @lab7.route('/rest-api/films/<int:id>', methods=['DELETE'])
+# def del_film(id):
+#     del films[id]
+#     return '', 204
