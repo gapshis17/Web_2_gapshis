@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+    <h1>База знаний</h1>
+    <div class="button-container">
+        <a href="{{ url_for('lab8.login') }}" class="button">Вход</a>
+        <a href="{{ url_for('lab8.register') }}" class="button">Регистрация</a>
+        <a href="{{ url_for('lab8.articles') }}" class="button">Список статей</a>
+        <a href="{{ url_for('lab8.create') }}" class="button">Создать статью</a>
+    </div>
+    <p>Имя пользователя: {{ login if login else 'anonymous' }}</p>
+{% endblock %}
