@@ -36,7 +36,7 @@ if app.config['DB_TYPE'] == 'postgres':
 else:
     dir_path = path.dirname(path.realpath(__file__))
     db_path = path.join(dir_path, "albinas_gapshis_orm.db")
-    app.comfig['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
 db.init_app(app)
 
