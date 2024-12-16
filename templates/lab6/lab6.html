@@ -19,10 +19,16 @@ function getOfficeList() {
     })
     .then(function(response) {
         console.log('Response received:', response);
-        return response.json()
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
     .then(function(data) {
         console.log('Data received:', data);
+        if (data.error) {
+            throw new Error(`Error: ${data.error.message}`);
+        }
         const office_list = data.result;
         const container = document.getElementById('office-container');
         container.innerHTML = '';  // Очищаем контейнер перед обновлением
@@ -88,26 +94,17 @@ function booking(officeNumber) {
     })
     .then(function(response) {
         console.log('Booking response received:', response);
-        return response.json()
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
     .then(function(data) {
         console.log('Booking data received:', data);
-        if(data.error) {
-            switch(data.error.code) {
-                case 1:
-                    alert('Вы не авторизованы, пожалуйста, авторизуйтесь');
-                    break;
-                case 2:
-                    alert('Офис уже арендуется');
-                    break;
-                case -32601:
-                    alert('Странная ошибка');
-                    break;
-            }
+        if (data.error) {
+            throw new Error(`Error: ${data.error.message}`);
         }
-        else {
-            getOfficeList();
-        }
+        getOfficeList();
     })
     .catch(function(error) {
         console.error('Error booking office:', error);
@@ -130,29 +127,17 @@ function cancellation(officeNumber) {
     })
     .then(function(response) {
         console.log('Cancellation response received:', response);
-        return response.json()
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
     .then(function(data) {
         console.log('Cancellation data received:', data);
-        if(data.error) {
-            switch(data.error.code) {
-                case 1:
-                    alert('Вы не авторизованы, пожалуйста, авторизуйтесь');
-                    break;
-                case 3:
-                    alert('Офис не арендован');
-                    break;
-                case 4:
-                    alert('Вы не арендуете этот офис');
-                    break;
-                case -32601:
-                    alert('Странная ошибка');
-                    break;
-            }
+        if (data.error) {
+            throw new Error(`Error: ${data.error.message}`);
         }
-        else {
-            getOfficeList();
-        }
+        getOfficeList();
     })
     .catch(function(error) {
         console.error('Error cancelling office:', error);
