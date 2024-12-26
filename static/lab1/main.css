@@ -188,6 +188,18 @@ form button:hover {
 }
 
 /* Общие стили для страницы */
+
+.article {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #F0FFF0; /* Светло-зелёный фон */
+    border: 1px solid #C1E1C1; /* Светло-зелёная граница */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .page-title {
     text-align: center;
     font-size: 34px;
@@ -226,14 +238,25 @@ form button:hover {
     padding-bottom: 5px;
 }
 
+.articletitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2E8B57; /* Тёмно-зелёный */
+    margin-bottom: 10px;
+    font-family: 'Arial', sans-serif;
+    border-bottom: 2px solid #90EE90; /* Светло-зелёная граница */
+    padding-bottom: 5px;
+}
+
 .article-text {
     font-size: 16px;
     line-height: 1.6;
-    color: #4b4b4b;
+    color: #030202;
     font-family: 'Verdana', sans-serif;
     margin-bottom: 15px;
     text-align: justify;
 }
+
 
 .favorite-badge {
     background-color: #FFD700; /* Золотой */
@@ -295,4 +318,31 @@ form button:hover {
 
 .empty-message a:hover {
     text-decoration: underline;
+}
+
+/* Стили для формы поиска */
+form {
+    margin-bottom: 20px;
+}
+
+form input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 300px;
+}
+
+form button {
+    background-color: #90EE90; /* Светло-зелёный */
+    color: #333; /* Тёмный текст */
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+form button:hover {
+    background-color: #76C776; /* Более тёмный зелёный при наведении */
 }

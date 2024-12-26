@@ -61,9 +61,18 @@ def login():
 @lab8.route('/lab8/articles/')
 @login_required
 def article_list():
-    user_articles = articles.query.filter_by(login_id=current_user.id).all()
+    query = request.args.get('query')  # Получаем поисковый запрос
 
-    return render_template('lab8/articles.html', articles=user_articles)
+    if query:
+        # Поиск по статьям текущего пользователя
+        user_articles = articles.query.filter_by(login_id=current_user.id).filter(
+            (articles.title.contains(query)) | (articles.article_text.contains(query))
+        ).all()
+    else:
+        # Отображаем все статьи текущего пользователя
+        user_articles = articles.query.filter_by(login_id=current_user.id).all()
+
+    return render_template('lab8/articles.html', articles=user_articles, query=query)
 
 
 @lab8.route('/lab8/logout')
@@ -80,15 +89,17 @@ def create_article():
         return render_template('lab8/create.html')
     
     title = request.form.get('title')
-    article_text = request.form.get('article_text')  
+    article_text = request.form.get('article_text')
+    is_public = request.form.get('is_public') == 'on'  # Получаем значение чекбокса
 
     # Создаем новую статью
     new_article = articles(
         title=title,
-        article_text=article_text,  
-        login_id=current_user.id,  
-        is_favorite=False,  
-        likes=0 
+        article_text=article_text,
+        login_id=current_user.id,
+        is_favorite=False,
+        likes=0,
+        is_public=is_public  # Устанавливаем публичность статьи
     )
 
     db.session.add(new_article)
@@ -127,3 +138,45 @@ def delete_article(article_id):
     db.session.commit()
 
     return redirect('/lab8/articles')
+
+
+@lab8.route('/lab8/public_articles/')
+def public_articles():
+    public_articles = articles.query.filter_by(is_public=True).all()
+
+    return render_template('lab8/public_articles.html', articles=public_articles)
+
+
+@lab8.route('/lab8/search/', methods=['GET'])
+def search_articles():
+    query = request.args.get('query') 
+
+    if current_user.is_authenticated:
+        user_articles = articles.query.filter(
+            (articles.login_id == current_user.id) | (articles.is_public == True)
+        ).filter(
+            (articles.title.contains(query)) | (articles.article_text.contains(query))
+        ).all()
+    else:
+        user_articles = articles.query.filter_by(is_public=True).filter(
+            (articles.title.contains(query)) | (articles.article_text.contains(query))
+        ).all()
+
+    return render_template('lab8/search_results.html', articles=user_articles, query=query)
+
+
+@lab8.route('/lab8/favorite/<int:article_id>', methods=['POST'])
+@login_required
+def toggle_favorite(article_id):
+    article = articles.query.get_or_404(article_id)
+
+    if article.login_id != current_user.id:
+        return "У вас нет прав на изменение этой статьи", 403
+
+    # Переключаем статус избранного
+    article.is_favorite = not article.is_favorite
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+

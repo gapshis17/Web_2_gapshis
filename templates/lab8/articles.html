@@ -8,6 +8,12 @@
 <h1 class="page-title">Ваши статьи</h1>
 
 <div class="articles-list">
+    <!-- Форма поиска -->
+    <form action="/lab8/articles/" method="get" style="margin-bottom: 20px;">
+        <input type="text" name="query" placeholder="Поиск статей" value="{{ query if query else '' }}">
+        <button type="submit">Поиск</button>
+    </form>
+
     {% if articles %}
         {% for article in articles %}
             <div class="article-card">
@@ -40,7 +46,13 @@
             </div>
         {% endfor %}
     {% else %}
-        <p class="empty-message">У вас пока нет ни одной статьи. <a href="/lab8/articles/create">Создать статью</a></p>
+        <p class="empty-message">
+            {% if query %}
+                По вашему запросу ничего не найдено.
+            {% else %}
+                У вас пока нет ни одной статьи. <a href="/lab8/articles/create">Создать статью</a>
+            {% endif %}
+        </p>
     {% endif %}
 </div>
 {% endblock %}

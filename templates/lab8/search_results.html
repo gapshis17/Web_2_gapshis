@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block lab %}Результаты поиска{% endblock %}
+
+{% block main %}
+    <h1>Результаты поиска: "{{ query }}"</h1>
+    <p>Тип поиска: 
+        {% if search_type == 'my' %}
+            Мои статьи
+        {% elif search_type == 'public' %}
+            Публичные статьи
+        {% else %}
+            Все статьи
+        {% endif %}
+    </p>
+
+    <div class="articles-list">
+        {% if articles %}
+            {% for article in articles %}
+                <div class="article-card">
+                    <h2 class="article-title">
+                        {{ article.title }}
+                        {% if article.is_favorite %}
+                            <span class="favorite-badge">Любимое</span>
+                        {% endif %}
+                    </h2>
+                    <p class="article-text">{{ article.article_text }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-message">По вашему запросу ничего не найдено.</p>
+        {% endif %}
+    </div>
+{% endblock %}
