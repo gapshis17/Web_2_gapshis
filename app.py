@@ -1,6 +1,9 @@
 from flask import Flask, redirect, url_for, render_template, session, request
 import os
 from os import path
+from flask_sqlalchemy import SQLAlchemy
+from db import db
+from flask_login import LoginManager
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
@@ -35,7 +38,7 @@ else:
     db_path = path.join(dir_path, "albinas_gapshis_orm.db")
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
-# db.init_app(app)
+db.init_app(app)
 
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
