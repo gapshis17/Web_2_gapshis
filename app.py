@@ -16,6 +16,7 @@ from lab7 import lab7
 
 
 
+
 app = Flask(__name__)
 
 app.secret_key = 'секретно-секретный секрет'
