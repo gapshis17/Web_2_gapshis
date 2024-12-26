@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block lab %}Лабораторная работа 8{% endblock %}
+{% block lab %}Вход{% endblock %}
 
 {% block main %}
     <h1>Вход</h1>
@@ -17,8 +17,14 @@
             </label>
         </div>
 
+        <div>
+            <label>
+                <input type="checkbox" name="remember"> Запомнить меня
+            </label>
+        </div>
+
         {% if error %}
-            <div style="color: red;">
+            <div class="error">
                 <strong>{{ error }}</strong>
             </div>
         {% endif %}

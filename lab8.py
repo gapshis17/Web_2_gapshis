@@ -32,6 +32,9 @@ def register():
     new_user = users(login = login_form, password = password_hash)
     db.session.add(new_user)
     db.session.commit()
+
+    # Автоматический логин после регистрации
+    login_user(new_user, remember=False)
     return redirect('/lab8/')
 
 
@@ -54,11 +57,73 @@ def login():
     return render_template('/lab8/login.html', error = 'Ошибка входа: логин и/или пароль неверны')
 
 
+
 @lab8.route('/lab8/articles/')
 @login_required
 def article_list():
-    return "Список статей"
+    user_articles = articles.query.filter_by(login_id=current_user.id).all()
+
+    return render_template('lab8/articles.html', articles=user_articles)
+
+
+@lab8.route('/lab8/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/lab8/')
+
 
 @lab8.route('/lab8/articles/create', methods=['GET', 'POST'])
+@login_required
 def create_article():
+    if request.method == 'GET':
+        return render_template('lab8/create.html')
+    
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')  
+
+    # Создаем новую статью
+    new_article = articles(
+        title=title,
+        article_text=article_text,  
+        login_id=current_user.id,  
+        is_favorite=False,  
+        likes=0 
+    )
+
+    db.session.add(new_article)
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+
+@lab8.route('/lab8/articles/<int:article_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_article(article_id):
+    article = articles.query.get_or_404(article_id)
+
+    if article.login_id != current_user.id:
+        return "У вас нет прав на редактирование этой статьи", 403
+
+    if request.method == 'GET':
+        return render_template('/lab8/edit_article.html', article=article)
+    
+    article.title = request.form.get('title')
+    article.content = request.form.get('content')
+    db.session.commit()
+
+    return redirect('/lab8/articles')
+
+
+@lab8.route('/lab8/articles/<int:article_id>/delete', methods=['POST'])
+@login_required
+def delete_article(article_id):
+    article = articles.query.get_or_404(article_id)
+
+    if article.login_id != current_user.id:
+        return "У вас нет прав на удаление этой статьи", 403
+
+    db.session.delete(article)
+    db.session.commit()
+
     return redirect('/lab8/articles')

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block lab %}
+Статьи
+{% endblock %}
+
+{% block main %}
+<h1 class="page-title">Ваши статьи</h1>
+
+<div class="articles-list">
+    {% if articles %}
+        {% for article in articles %}
+            <div class="article-card">
+                <h2 class="article-title">
+                    {{ article.title }}
+                    {% if article.is_favorite %}
+                        <span class="favorite-badge">Любимое</span>
+                    {% endif %}
+                </h2>
+                <p class="article-text">{{ article.article_text }}</p>
+                <div class="article-actions">
+                    <form action="/lab8/favorite/{{ article.id }}" method="post">
+                        <button type="submit">
+                            {% if article.is_favorite %}
+                                Убрать из любимых
+                            {% else %}
+                                Добавить в любимые
+                            {% endif %}
+                        </button>
+                    </form>
+                    <form action="/lab8/articles/{{ article.id }}/edit" method="get">
+                        <button type="submit">Редактировать</button>
+                    </form>
+                    <form action="/lab8/articles/{{ article.id }}/delete" method="post">
+                        <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту статью?');">
+                            Удалить
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty-message">У вас пока нет ни одной статьи. <a href="/lab8/articles/create">Создать статью</a></p>
+    {% endif %}
+</div>
+{% endblock %}
