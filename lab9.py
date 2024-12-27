@@ -4,6 +4,8 @@ lab9 = Blueprint('lab9', __name__)
 
 @lab9.route('/lab9/')
 def main():
+    if 'name' in session and 'age' in session and 'gender' in session  and 'preference2' in session:
+        return redirect(url_for('lab9.congratulations'))
     return render_template('lab9/index.html')
 
 @lab9.route('/lab9/age', methods=['GET', 'POST'])
@@ -53,3 +55,5 @@ def congratulations():
 def reset():
     session.clear()  # Очищаем сессию
     return redirect(url_for('lab9.main'))
+
+    
