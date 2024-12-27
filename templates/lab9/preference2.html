@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Выберите вариант:</h1>
+    <form action="{{ url_for('lab9.congratulations') }}" method="POST">
+        {% if session.get('preference1') == 'adventure' %}
+            <label>
+                <input type="radio" name="preference2" value="mountains" required> Горы
+            </label><br>
+            <label>
+                <input type="radio" name="preference2" value="sea" required> Море
+            </label><br>
+        {% else %}
+            <label>
+                <input type="radio" name="preference2" value="music" required> Музыка
+            </label><br>
+            <label>
+                <input type="radio" name="preference2" value="books" required> Книги
+            </label><br>
+        {% endif %}
+        <input type="submit" value="Далее">
+    </form>
+
+    <style>
+        /* Снежинки */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/static/lab9/snowflakes.jpg') repeat;
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: -1;
+        }
+    </style>
+{% endblock %}

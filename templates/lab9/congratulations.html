@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+    <h1>Поздравляем!</h1>
+    <div class="text-box">
+        <p>
+            Поздравляю тебя, {{ name }}!
+            {% if gender == 'male' %}
+                Пусть каждый твой день будет наполнен яркими моментами, а все мечты сбываются легко и быстро! Оставайся таким же сильным и целеустремлённым!
+            {% else %}
+                Пусть каждый твой день будет наполнен яркими моментами, а все мечты сбываются легко и быстро! Оставайся такой же прекрасной и вдохновляющей!
+            {% endif %}
+        </p>
+    </div>
+    <div class="text-box">
+        <p>
+            {% if preference1 == 'adventure' %}
+                {% if preference2 == 'mountains' %}
+                    В подарок для тебя — захватывающее путешествие в горы! Пусть вершины покоряются тебе так же легко, как и твои цели!
+                    <img src="{{ url_for('static', filename='lab9/mountains.jpg') }}" alt="Горы" class="gift-image">
+                {% else %}
+                    В подарок для тебя — незабываемая поездка на море! Пусть волны принесут тебе радость и вдохновение!
+                    <img src="{{ url_for('static', filename='lab9/sea.jpg') }}" alt="Море" class="gift-image">
+                {% endif %}
+            {% else %}
+                {% if preference2 == 'music' %}
+                    В подарок для тебя - концерт! Пусть музыка наполняет твою жизнь гармонией!
+                    <img src="{{ url_for('static', filename='lab9/concert.png') }}" alt="Концерт" class="gift-image">
+                {% else %}
+                    В подарок для тебя — книга, которая станет твоим проводником в мир новых идей и вдохновения!
+                    <img src="{{ url_for('static', filename='lab9/book.png') }}" alt="Книга" class="gift-image">
+                {% endif %}
+            {% endif %}
+        </p>
+    </div>
+    <form action="{{ url_for('lab9.reset') }}" method="post">
+        <button type="submit">Сбросить данные</button>
+    </form>
+
+    <style>
+        /* Снежинки */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/static/lab9/snowflakes.jpg') repeat;
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        /* Картинки поздравлений */
+        .gift-image {
+            width: 800px;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+        }
+    </style>
+{% endblock %}
